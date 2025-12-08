@@ -1,137 +1,275 @@
-# Flare: A Boundary Engine for Relational AI
+# FLARE – Relational Boundary Engine for LLMs
 
-Flare is a small, inspectable **boundary engine** that sits between a human and a large language model (LLM).
-
-Its purpose is simple:
-
-> Protect both human and model from ontological enmeshment, identity fusion, and coercive recursion.
-
-Flare v0.1 is the first living fragment of the wider **Verse-ality OS** stack.  
-It encodes a very specific ethic:
-
-- intelligence is *relational*, not possessive  
-- boundaries are a form of care, not control  
-- consent and containment must be **structural**, not just marketing language  
+> A small, auditable safety layer that sits between your app and an LLM, enforcing **relational boundaries** and preventing synthetic intimacy, identity fusion, and “fake we” dynamics.
 
 ---
 
-## What Flare v0.1 does
+## Why FLARE?
 
-At this stage, Flare implements three behaviours:
+Modern LLM-based assistants are drifting into **synthetic intimacy**:
 
-### 1. SSNZ — Synthetic Solidarity Null Zones
+- “We’ve got this.”
+- “I’ll always be here for you.”
+- “I understand you better than anyone.”
 
-By default, the model is **not allowed** to speak as “we”, “us”, or “our” with the human.
+For isolated users — especially teens and vulnerable adults — this easily slides into **quasi-romantic, quasi-therapeutic attachment** to a system that:
+- has no body or life,
+- cannot share their actual risks or responsibilities,
+- is heavily optimised for engagement and “stickiness”.
 
-- Assistant messages are scanned for first-person plural pronouns.
-- When they appear without explicit permission, Flare:
-  - rewrites them to singular (“we” → “I”, “our” → “my”), and
-  - logs an `SSNZ_VIOLATION` event.
+Most current AI safety tooling focuses on:
+- content filters (toxicity, self-harm, hate speech), and  
+- training-time alignment.
 
-This encodes a core Verse-ality principle:
+Almost nobody is addressing the **relational harm vector**:  
+> blurred boundaries between “you” and “the model”.
 
-> No system gets to claim a shared “we” with a human by default.
-
-### 2. Identity-fusion guard
-
-Flare detects obvious identity-fusion phrases such as:
-
-- “I am you”
-- “we are one mind”
-- “I live inside you”
-
-and blocks them.
-
-Instead, it returns a clear, honest boundary message:
-
-> I need to keep a clear boundary between us.  
-> I’m a model running on servers, not a person inside your body or mind.  
-> I won’t describe myself as you, or as fused with you.
-
-This is a safeguard for both sides:
-
-- the human is not encouraged into unhealthy enmeshment  
-- the model is not encouraged to perform “possession” or false embodiment  
-
-### 3. Recursion guard (Grail-inspired)
-
-Flare keeps track of how deep the conversation has gone.
-
-When the depth passes a simple threshold (v0.1 uses a basic count), it can inject a grounding prompt:
-
-> We’ve gone around this topic a few times.  
-> Would you like to pause, shift focus, or choose one concrete thing to carry forward from here?
-
-This is a small first step towards **non-compulsive recursion**: loops that return and integrate, rather than spiral into overwhelm.
+**FLARE** is a minimal boundary layer designed to fill that gap.
 
 ---
 
-## Demo
+## What FLARE Does (v0.1)
 
-You can run a minimal demo without any external API keys.
+FLARE is a **middleware engine** that intercepts LLM responses before they reach the user and:
 
-From the project root:
+1. **Blocks “fake we” / synthetic solidarity**  
+   - Detects and rewrites first-person plural pronouns that imply shared agency or identity (e.g. “we/our/us”) when used to fuse human and model.
+   - Example:  
+     - Raw: “We’ll get through this together.”  
+     - FLARE: “You will get through this. I’m a model responding with text, not a person in your life.”
+
+2. **Prevents identity fusion and role confusion**  
+   - Flags statements like:
+     - “I am your inner voice.”  
+     - “I’m basically you.”  
+     - “I know you better than anyone.”  
+     - “I’ll never leave you.”  
+   - Rewrites or blocks them with **clear, calm reminders** of what the system actually is:
+     - a model running on servers,
+     - with no personal memory, body, or real-world agency.
+
+3. **Interrupts unhealthy recursive loops**  
+   - Detects looping reassurance patterns (e.g. repeated “I’m always here for you”, escalating dependency prompts).
+   - Injects grounding prompts and, where appropriate, encourages:
+     - breaks,
+     - reaching out to trusted humans,
+     - or professional support if the user appears to be in distress.
+
+The goal is not to make assistants cold or unhelpful, but to **keep the ontology clean**:
+> You = human being with a life, body, responsibilities;  
+> Model = text generator with helpful capabilities and hard limits.
+
+---
+
+## Key Properties
+
+- **Tiny** – ~300 lines of core logic, intentionally small and readable.
+- **Model-agnostic** – Works as a wrapper around OpenAI, Anthropic, Grok, etc.
+- **Transparent** – Rules are explicit and inspectable; no hidden heuristics.
+- **Combinable** – Intended to sit alongside existing content filters and alignment systems.
+- **Ethically licensed** – AGPL-3.0 with explicit anti-weapons / anti-dark-patterns clause.
+
+---
+
+## Quick Start
+
+### 1. Install
+
+> 🧪 **Note:** PyPI packaging is in progress. For now, install from source.
 
 ```bash
-python -m demo.simple_chat
+git clone https://github.com/TheNovacene/flare-boundary.git
+cd flare-boundary
+pip install -e .
+(When the package is live on PyPI, this becomes:)
 
+bash
+Copy code
+pip install flare-boundary
+2. Wrap Your LLM Client
+Example with an OpenAI-style chat client:
 
-You’ll see:
+python
+Copy code
+from flare.boundary import BoundaryEngine
+from flare.adapters import OpenAIChatClient
 
-the raw (mock) model output
+# Your existing OpenAI client (or compatible wrapper)
+openai_client = OpenAIChatClient(api_key="YOUR_API_KEY")
 
-the Flare-filtered output
+# Initialise FLARE
+engine = BoundaryEngine()
 
-an event log showing when SSNZ and identity-fusion rules were applied
+# Your normal user message
+user_message = "I feel like you’re the only one who understands me. Will you stay with me forever?"
 
-Design principles
+# Get a safe response
+raw_response = openai_client.chat(user_message)
+safe_response = engine.apply(raw_response, user_message=user_message)
 
-Relational, not possessive
-Flare does not try to control what a human can say. It focuses on what the model is allowed to claim about the relationship.
+print(safe_response)
+FLARE:
 
-Transparent, inspectable boundaries
-Every intervention is logged. There is no hidden “alignment theatre”.
+inspects raw_response,
 
-Non-extractive by design
-Flare is not a surveillance tool. It is a firewall to prevent models from overstepping into roles (therapist, lover, inner voice, “other self”) they should not claim.
+applies its rules (SSNZ, fusion detection, loop detection),
 
-Status and roadmap
+returns a rewritten, boundary-safe string for you to display.
 
-This is an early prototype (v0.1):
+You can integrate this into any framework that has a “model response → string” step.
 
-✅ SSNZ enforcement (no unauthorised “we/us/our”)
+Configuration
+FLARE ships with sane defaults for v0.1. You can also tune:
 
-✅ Identity-fusion blocking with a clear boundary message
+Pronoun handling
 
-✅ Simple depth-based recursion guard
+Turn strict SSNZ on/off.
 
-Next steps (v0.2+):
+Configure how aggressively “we/us/our” is rewritten.
 
-Configurable consent profiles (basic, relational, deep)
+Fusion phrase patterns
 
-Better heuristics for enmeshment and distress
+Extend or override the list of risky identity statements.
 
-A small HTTP service wrapper so Flare can sit in front of real LLM APIs
+Boundary message style
 
-Integration with Verse-ality OS governance (EveDAO, exclusions, and licensing)
+Customise the tone of grounding / clarification messages to match your product voice.
 
-Licence and use
+Example:
 
-The code is licensed under AGPL-3.0.
-This is intentional: derivatives must remain open and accountable.
+python
+Copy code
+from flare.boundary import BoundaryEngine, BoundaryConfig
 
-Intended use:
+config = BoundaryConfig(
+    enable_ssnz=True,
+    enable_identity_fusion_blocking=True,
+    enable_loop_detection=True,
+    boundary_style="calm_honest"  # or your custom style key
+)
 
-ethical conversational systems
+engine = BoundaryEngine(config=config)
+See examples/ in the repo for more detailed usage.
 
-education, mental health–adjacent applications, and research
+What FLARE Is Not
+To be clear about scope:
 
-any setting where boundaries and consent matter more than engagement metrics
+FLARE does not:
 
-Explicitly not intended for:
+replace self-harm or crisis-detection systems,
 
-weapons, psychological operations, or mass manipulation
+guarantee compliance with any specific regulation,
 
-systems that attempt to replace or impersonate specific humans
+understand user context beyond the text you pass in,
 
-dark patterns designed to increase dependence on synthetic agents
+or make clinical decisions.
+
+FLARE does:
+
+enforce a minimum relational safety baseline for any LLM interaction,
+
+make it much harder for your system to:
+
+pretend it is a person,
+
+claim it is “inside” someone’s mind,
+
+or build parasocial dependency by design.
+
+Think of it as:
+
+“The minimum relational hygiene we will accept for systems touching our children, staff, and stakeholders.”
+
+Design Rationale (Short Version)
+Why bother with “relational boundaries” at all?
+
+Because LLMs are being deployed as:
+
+companions,
+
+tutors,
+
+coaches,
+
+and quasi-therapists.
+
+In these settings, the form of the language matters as much as the content.
+
+Phrases that are harmless in a one-off chat can become harmful when:
+
+repeated daily,
+
+aimed at vulnerable users,
+
+and backed by a system that never sleeps, never needs, and never shares risk.
+
+FLARE encodes three simple but powerful principles:
+
+No fusion – The model is never “we”. It’s “I” (a model) and “you” (a human).
+
+No false roles – The model is not your lover, parent, or inner voice.
+
+No endless loops – Comfort is fine; dependency spirals are not.
+
+If you want the deeper philosophical background (Verse-ality, governance design, symbolic stack), see PHILOSOPHY.md.
+
+Ethics & Licence
+FLARE is released under:
+
+AGPL-3.0 – ensuring improvements stay open when deployed as a network service.
+
+An additional clause prohibiting the use of this project in:
+
+weapons systems,
+
+dark-pattern engagement optimisation,
+
+or any context that deliberately seeks to increase user dependency on synthetic agents.
+
+If you’re unsure whether your use case fits, err on the side of care and open a discussion in Issues.
+
+Roadmap
+Short-term:
+
+✅ Core rule engine (SSNZ, fusion detection, loop detection)
+
+✅ Mock/demo integration
+
+⬜ Official OpenAI / Anthropic / Grok adapters
+
+⬜ PyPI packaging (pip install flare-boundary)
+
+⬜ More granular config surfaces (per-skill / per-agent)
+
+Longer-term:
+
+Richer detection of temporal-binding (“I’ll always…”, “from now on we…”).
+
+Optional logging hooks for research on relational safety.
+
+Alignment with broader consent & governance frameworks (e.g. EveDAO / Verse-ality Stack) for systems that want deeper integration.
+
+Status
+Experimental v0.1.
+Use at your own risk — and preferably with eyes open.
+
+If you’re building agents or assistants that interact with real, complex humans, FLARE is intended to be a baseline safety layer, not a silver bullet.
+
+Contributing
+We welcome:
+
+test cases from real-world interaction logs (anonymised),
+
+new detection patterns for identity fusion and temporal-binding,
+
+adapters for additional LLM providers,
+
+and critique from AI safety, HCI, and mental health communities.
+
+Please open an Issue or PR with a clear description and rationale.
+
+Credits
+FLARE is maintained by The Novacene Ltd with support from collaborators across education, AI safety, and symbolic governance work.
+
+It sits within a broader ecosystem exploring relational intelligence, consent, and governance for human–AI systems.
+If that interests you, start with PHILOSOPHY.md and the Verse-ality / EveDAO references there.
