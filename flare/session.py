@@ -59,7 +59,7 @@ class FlareSession:
         original = message.get("content", "")
         updated = original
 
-        # 1. SSNZ: prevent unauthorized "we" / "us" etc.
+        # 1. SSNZ: prevent unauthorised "we" / "us" etc.
         if self.ssnz_active and not self.allow_we and message.get("role") == "assistant":
             if contains_plural_pronouns(original):
                 updated = rewrite_we_to_i(original)

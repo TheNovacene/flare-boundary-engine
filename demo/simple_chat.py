@@ -2,8 +2,14 @@
 Minimal demo to show Flare enforcing SSNZ and identity boundaries.
 
 For now, we mock the LLM response instead of calling a real API.
-Later, you can plug in Grok or any other model at `call_llm()`.
+Later, you can plug in a real model at `call_llm()`.
 """
+
+import os
+import sys
+
+# Ensure the project root (which contains the `flare` package) is on sys.path
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from flare.session import FlareSession
 

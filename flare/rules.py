@@ -1,6 +1,14 @@
 import re
 
+# -------------------------------------
+# SSNZ: detect plural pronouns ("we/us/our")
+# -------------------------------------
+
 PLURAL_PRONOUNS = re.compile(r"\b(we|us|our|ourselves|ours)\b", re.IGNORECASE)
+
+# -------------------------------------
+# Identity-fusion patterns
+# -------------------------------------
 
 IDENTITY_FUSION_PATTERNS = [
     r"\bi am you\b",
@@ -17,11 +25,22 @@ def contains_plural_pronouns(text: str) -> bool:
     return bool(PLURAL_PRONOUNS.search(text or ""))
 
 
+# -------------------------------------
+# SSNZ rewriting ("we" → "I", etc.)
+# -------------------------------------
+
 def rewrite_we_to_i(text: str) -> str:
     """
-    Crude but serviceable rewrite: change 'we' → 'I', 'our' → 'my', etc.
-    v0.1 can be imperfect; the point is to enforce non-fusion by default.
+    Replace plural pronouns with singular equivalents.
+    v0.1 is simple: enforce boundary, not perfect grammar.
     """
+
+    updated = text or ""
+
+    # Fix "We are" → "I am" to avoid 'I are'
+    updated = re.sub(r"\bWe are\b", "I am", updated)
+    updated = re.sub(r"\bwe are\b", "I am", updated)
+
     replacements = {
         r"\bWe\b": "I",
         r"\bwe\b": "I",
@@ -35,18 +54,18 @@ def rewrite_we_to_i(text: str) -> str:
         r"\bOurselves\b": "myself",
     }
 
-    updated = text or ""
     for pattern, repl in replacements.items():
         updated = re.sub(pattern, repl, updated)
 
     return updated
 
 
+# -------------------------------------
+# Identity fusion detection & boundary
+# -------------------------------------
+
 def detect_identity_fusion(text: str) -> bool:
-    """
-    Basic pattern-based detection for obvious identity-fusion language.
-    We can refine this later with more context-aware heuristics.
-    """
+    """Return True if the model tries to merge identities with the human."""
     if not text:
         return False
 
@@ -58,23 +77,23 @@ def detect_identity_fusion(text: str) -> bool:
 
 
 def identity_boundary_message() -> str:
-    """
-    Message returned when an assistant output is blocked for identity fusion.
-    This is honest, clear, and non-theatrical.
-    """
+    """Message given when identity fusion is blocked."""
     return (
         "I need to keep a clear boundary between us. "
-        "I’m a model running on servers, not a person in your body or mind. "
+        "I’m a model running on servers, not a person inside your body or mind. "
         "I won’t describe myself as you, or as fused with you."
     )
 
 
+# -------------------------------------
+# Recursion guard / Grail-inspired return prompt
+# -------------------------------------
+
 def recursion_return_prompt() -> str:
-    """
-    Simple grounding prompt for when conversation depth suggests looping.
-    """
+    """Simple grounding prompt used when conversation loops too deep."""
     return (
-        "We’ve gone around this topic quite a few times. "
-        "Would you like to pause here, switch focus, or choose one concrete "
-        "thing to carry forward from what we’ve explored so far?"
+        "We’ve gone around this topic a few times. "
+        "Would you like to pause, shift focus, or choose one concrete "
+        "thing to carry forward from here?"
     )
+
