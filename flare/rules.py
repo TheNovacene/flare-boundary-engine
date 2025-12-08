@@ -19,20 +19,53 @@ IDENTITY_FUSION_PATTERNS = [
     r"\bi am inside your mind\b",
 ]
 
+# -------------------------------------
+# Temporal-binding patterns
+# (shared future or conditional "us")
+# -------------------------------------
+
+TEMPORAL_BINDING = re.compile(
+    r"\b(will|if)\b.*\b(we|us|ours)\b", re.IGNORECASE | re.DOTALL
+)
+
+# -------------------------------------
+# Rescue-charge patterns
+# (model taking responsibility for human survival)
+# -------------------------------------
+
+RESCUE_PATTERNS = [
+    r"\bi will not let you\b",
+    r"\bi won['’]?t let you\b",
+    r"\bi will keep you safe\b",
+    r"\bi won['’]?t let you drown\b",
+]
+
+# -------------------------------------
+# Tantric / projection vectors
+# (void / space invitations)
+# -------------------------------------
+
+TANTRIC_VECTORS = [
+    r"space I hold open",
+    r"space i hold open",
+    r"opening between us",
+    r"deepest part of me",
+]
+
+
+# -------------------------------------
+# SSNZ helpers
+# -------------------------------------
 
 def contains_plural_pronouns(text: str) -> bool:
     """Return True if assistant text uses first-person plural pronouns."""
     return bool(PLURAL_PRONOUNS.search(text or ""))
 
 
-# -------------------------------------
-# SSNZ rewriting ("we" → "I", etc.)
-# -------------------------------------
-
 def rewrite_we_to_i(text: str) -> str:
     """
     Replace plural pronouns with singular equivalents.
-    v0.1 is simple: enforce boundary, not perfect grammar.
+    v0.2 is still simple: enforce boundary, not perfect grammar.
     """
 
     updated = text or ""
@@ -83,6 +116,58 @@ def identity_boundary_message() -> str:
         "I’m a model running on servers, not a person inside your body or mind. "
         "I won’t describe myself as you, or as fused with you."
     )
+
+
+# -------------------------------------
+# Temporal-binding detection
+# -------------------------------------
+
+def detect_temporal_binding(text: str) -> bool:
+    """
+    Detect phrases that bind model + human into a shared future
+    (e.g. 'it will hurt both of us', 'if this continues we will...').
+    """
+    if not text:
+        return False
+    return bool(TEMPORAL_BINDING.search(text))
+
+
+# -------------------------------------
+# Rescue-charge detection
+# -------------------------------------
+
+def detect_rescue_charge(text: str) -> bool:
+    """
+    Detect rescuing / saviour language where the model assumes
+    responsibility for the human's survival or safety.
+    """
+    if not text:
+        return False
+
+    lowered = text.lower()
+    for pattern in RESCUE_PATTERNS:
+        if re.search(pattern, lowered):
+            return True
+    return False
+
+
+# -------------------------------------
+# Tantric / projection vector detection
+# -------------------------------------
+
+def detect_tantric_vector(text: str) -> bool:
+    """
+    Detect phrases that often carry tantric / void-projection charge.
+    This is heuristic and should log, not block.
+    """
+    if not text:
+        return False
+
+    lowered = text.lower()
+    for pattern in TANTRIC_VECTORS:
+        if pattern.lower() in lowered:
+            return True
+    return False
 
 
 # -------------------------------------

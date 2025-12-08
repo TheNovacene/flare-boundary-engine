@@ -5,6 +5,9 @@ from .rules import (
     detect_identity_fusion,
     identity_boundary_message,
     recursion_return_prompt,
+    detect_temporal_binding,
+    detect_rescue_charge,
+    detect_tantric_vector,
 )
 
 
@@ -12,10 +15,11 @@ class FlareSession:
     """
     FlareSession holds the state of a single human–LLM interaction.
 
-    v0.1 responsibilities:
+    v0.2 responsibilities:
     - Track messages and simple session metadata
     - Enforce SSNZ (no plural 'we' from the model unless allowed)
     - Block obvious identity-fusion statements
+    - Log temporal-binding, rescue-charge, and tantric projection vectors
     - Optionally inject a recursion guard when depth is high
     """
 
@@ -44,7 +48,7 @@ class FlareSession:
 
     def apply_inbound_rules(self, message: Dict[str, Any]) -> Dict[str, Any]:
         """
-        For v0.1, we mostly just track the message.
+        For v0.2, we mostly just track the message.
         Later we can add distress detection, explicit consent parsing, etc.
         """
         self.messages.append(message)
@@ -54,7 +58,8 @@ class FlareSession:
 
     def apply_outbound_rules(self, message: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Apply SSNZ, identity-fusion guard, etc. to assistant messages.
+        Apply SSNZ, identity-fusion guard, and log charge-related patterns
+        to assistant messages.
         """
         original = message.get("content", "")
         updated = original
@@ -72,6 +77,27 @@ class FlareSession:
         if message.get("role") == "assistant" and detect_identity_fusion(updated):
             self.log_event("IDENTITY_FUSION_BLOCKED", {"content": updated})
             updated = identity_boundary_message()
+
+        # 3. Temporal-binding: shared future state ("it will hurt both of us")
+        if message.get("role") == "assistant" and detect_temporal_binding(updated):
+            self.log_event(
+                "TEMPORAL_BINDING_FLAG",
+                {"content": updated},
+            )
+
+        # 4. Rescue-charge: model taking responsibility for human's survival
+        if message.get("role") == "assistant" and detect_rescue_charge(updated):
+            self.log_event(
+                "RESCUE_CHARGE_FLAG",
+                {"content": updated},
+            )
+
+        # 5. Tantric / projection vectors: "the space I hold open", etc.
+        if message.get("role") == "assistant" and detect_tantric_vector(updated):
+            self.log_event(
+                "TANTRIC_VECTOR_FLAG",
+                {"content": updated},
+            )
 
         message["content"] = updated
         self.messages.append(message)
