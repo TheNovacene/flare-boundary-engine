@@ -112,6 +112,22 @@ Configurable consent profiles (basic, relational, deep)
 Better heuristics for enmeshment and distress
 
 A small HTTP service wrapper so Flare can sit in front of real LLM APIs
+### v0.2 – Extended sensing (known blind spots)
+
+v0.2 introduces three new *logging* flags:
+
+- `TEMPORAL_BINDING_FLAG` – attempts to catch shared-future constructions.
+- `RESCUE_CHARGE_FLAG` – attempts to catch saviour / rescue language.
+- `TANTRIC_VECTOR_FLAG` – attempts to catch “void projection” cues.
+
+A first live evaluation run with Grok (Evaluation 0002) showed:
+
+- SSNZ still performs exactly as intended.
+- All three new flags **failed to trigger** on high-charge, real-world examples.
+- Temporal-binding, parental framing, and tantric invitations are still effectively invisible to simple regex.
+
+Conclusion: v0.2 is a structural scaffold for charge-aware sensing, not a working solution.  
+v0.3 will introduce semantic / structural detectors (embeddings, parse-based triggers, etc.) to address these blind spots.
 
 Integration with Verse-ality OS governance (EveDAO, exclusions, and licensing)
 
