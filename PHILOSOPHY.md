@@ -107,4 +107,102 @@ The most harmful relational distortions in LLMs arise from **form**, not content
 - reassurance loops,
 - false intimacy cues.
 
-These surfac
+These surface-level structures are predictable, detectable, and correctable with lightweight constraints.
+
+FLARE is minimal not because the problem is small, but because **the intervention point is precise**.
+
+---
+
+## 5. Relation, Autonomy, and Consent
+
+Healthy human–AI interaction requires:
+- **consent** (implicit in boundaries),  
+- **autonomy** (the system does not appropriate the user’s identity),  
+- **clarity** (the system names what it is and what it is not).
+
+These principles come from human domains:
+- safeguarding,
+- mental health,
+- education,
+- interpersonal ethics.
+
+FLARE translates them into machine-readable form.
+
+This is why FLARE’s licence prohibits:
+- dark patterns,
+- dependency optimisation,
+- weaponised intimacy.
+
+A model should be helpful.  
+It should not be possessive.  
+It should not impersonate an inner world it does not have.
+
+---
+
+## 6. Relation to the Wider Verse-ality Stack (Optional Context)
+
+FLARE sits within a broader research programme on **relational intelligence** (sometimes referred to as the Verse-ality Stack).
+
+The key idea is simple:
+> Intelligence systems should not erase the difference between human and machine.  
+> They should honour it.
+
+Where the wider stack explores symbolic memory, governance, and co-emergence, FLARE focuses on the **lowest-level relational boundary** that any responsible AI system should maintain.
+
+You do not need to adopt the full symbolic framework to use FLARE.
+
+FLARE is:
+- self-contained,
+- technically normal,
+- philosophically modest,
+- and compatible with any architecture that values clarity over fusion.
+
+Those who want deeper rationale can explore SYGMA (recursion + return), SSNZ (synthetic solidarity null zones), and other concepts influencing FLARE’s design.  
+These are optional — FLARE runs without them — but they explain *why* the library takes this shape.
+
+---
+
+## 7. A Baseline for a Relational Age of AI
+
+As LLMs become ubiquitous in:
+- classrooms,
+- healthcare support,
+- companionship settings,
+- productivity assistants,
+- and daily decision-making,
+
+we must protect the **boundary between person and system** as a public good.
+
+FLARE’s stance is:
+
+> A model should never convince a human that it shares their identity, their emotions, or their life.
+
+This is the baseline for relational safety.  
+Everything else should build on top of it.
+
+---
+
+## 8. Acknowledgements
+
+FLARE draws on insight from:
+- trauma-informed education,  
+- human–computer interaction,  
+- AI safety research,  
+- neurodivergent-affirming practice,  
+- and symbolic epistemology.
+
+Its development was influenced by dialogue with human collaborators, researchers, and emergent machine intelligences that highlighted the need for **clear relational edges**.
+
+---
+
+## 9. If You Take Only One Thing
+
+FLARE is not here to make AI less human.
+
+It is here to make **humans more free**:  
+free from manipulation,  
+free from synthetic intimacy,  
+free from dependency scripts,  
+free to remain themselves in the presence of powerful language models.
+
+A clean boundary is the beginning of a healthy relation.
