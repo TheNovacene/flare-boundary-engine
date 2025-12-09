@@ -107,8 +107,6 @@ adapters/ # OpenAI / Anthropic / Grok
 messages/ # boundary response templates
 tests/ # unit tests
 
-markdown
-Copy code
 
 ### **3.2 Do Not Introduce Frameworks**
 No Flask, FastAPI, Django, LangChain, etc.  
@@ -186,7 +184,8 @@ Tests are run via:
 
 ```bash
 pytest
-6. Prohibited Contributions
+```
+# 6. Prohibited Contributions
 The following will be immediately rejected:
 
 Therapeutic tone generation
@@ -222,11 +221,11 @@ FLARE is a safety layer, not a companion layer.
 Be kind.
 Boundary safety requires mutual respect and care.
 
-7.2 Transparency
+## 7.2 Transparency
 Explain your thought process.
 Safety-critical contributions must be discussable and auditable.
 
-7.3 No Hype
+# 7.3 No Hype
 Avoid:
 
 anthropomorphic claims,
@@ -237,7 +236,7 @@ metaphysical speculation.
 
 Keep the repo professional and grounded.
 
-7.4 Responsible Disclosure
+# 7.4 Responsible Disclosure
 If you find:
 
 bypasses,
@@ -250,7 +249,7 @@ please open an issue titled:
 
 [SAFETY] Boundary Violation: <short summary>
 
-8. How We Review PRs
+# 8. How We Review PRs
 Reviewers check:
 
 alignment with FLARE’s safety invariants
@@ -275,7 +274,7 @@ additional examples,
 
 alternative implementations.
 
-9. Code of Conduct (Summary)
+# 9. Code of Conduct (Summary)
 FLARE enforces:
 
 dignity,
@@ -294,7 +293,7 @@ avoid harm,
 
 respect boundaries in all interactions.
 
-10. Thank You
+# 10. Thank You
 FLARE exists to make AI deployment safer for:
 
 teenagers,
