@@ -1,0 +1,92 @@
+# Funding FLARE  
+## Support the development of relationally safe AI infrastructure
+
+FLARE is an open-source, safety-first boundary engine designed to protect users from:
+
+- synthetic intimacy  
+- identity fusion  
+- temporal-binding  
+- dependency-inducing reassurance loops  
+
+It sits between applications and LLMs, providing a minimal, auditable layer of relational safety.
+
+If you believe this work is important — especially for young people, vulnerable users, and anyone interacting with AI systems daily — you can support its ongoing development.
+
+---
+
+## 💛 How to Support
+
+### **GitHub Sponsors (recommended)**  
+Recurring or one-off contributions directly support ongoing maintenance and development:  
+👉 github: [TheNovacene]
+
+### **Ko-fi**  
+A simple way to make a one-off contribution:  
+ko_fi: thenovacene
+
+
+
+
+---
+
+## 💡 What Your Support Enables
+
+Funding helps us:
+
+- expand the core rule engine  
+- improve detection patterns for identity fusion & synthetic intimacy  
+- build additional adapters for more LLM providers  
+- maintain a comprehensive test suite  
+- draft relational safety specifications and documentation  
+- engage with educators, researchers, and regulators  
+- keep FLARE fully open-source and freely available  
+
+The project is intentionally free of commercial dark-pattern incentives.  
+Your support makes that sustainable.
+
+---
+
+## 🛠 Near-Term Goals (Where Sponsor Funding Goes)
+
+- **v0.2**  
+  - Streaming support  
+  - More robust loop detection heuristics  
+  - Initial logging hooks for research  
+  - Bedrock / Gemini adapters  
+
+- **v0.3**  
+  - Optional audit log for boundary violations  
+  - More granular rule configuration  
+  - Developer tools for testing relational safety  
+
+- **v1.0**  
+  - Stable API  
+  - Full provider coverage  
+  - Policy-ready documentation for educational & clinical contexts  
+  - Deployment recommendations for safeguarding environments  
+
+Your sponsorship accelerates all of this.
+
+---
+
+## 🧠 Why Funding Matters
+
+FLARE addresses a safety gap not covered by:
+
+- content filters,  
+- jailbreak defenders,  
+- or traditional alignment work.
+
+The harms it mitigates — relational overreach, blurred identity boundaries, dependency architecture — are increasing rapidly across consumer AI.
+
+Keeping this work open, independent, and ethically uncompromised requires resources and committed support.
+
+---
+
+## 🙏 Thank You
+
+If you choose to sponsor FLARE — in any amount — you are helping to establish relational safety as a first-class requirement in AI systems.
+
+We’re building this responsibly, transparently, and with long-term stewardship in mind.
+
+Thank you for your support.
