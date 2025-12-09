@@ -36,12 +36,13 @@ engine = BoundaryEngine()
 raw = client.chat(user_message)
 safe = engine.apply(raw, user_message=user_message)
 return safe
-
-2. OpenAI-Style Adapter
+```
+# 2. OpenAI-Style Adapter
 
 (Compatible with OpenAI, Azure OpenAI, Groq, OpenRouter, and other OpenAI-compatible endpoints)
 
 Installation
+```bash
 pip install openai
 
 Adapter Implementation
@@ -61,8 +62,8 @@ class OpenAIChatClient:
 
         # Extract the text output
         return response.choices[0].message["content"]
-
-Usage
+```
+## Usage
 engine = BoundaryEngine()
 client = OpenAIChatClient(api_key="YOUR_KEY")
 
@@ -71,7 +72,7 @@ safe = engine.apply(raw, user_message="I feel like you're the only one who under
 
 print(safe)
 
-3. Anthropic Messages API Adapter
+# 3. Anthropic Messages API Adapter
 
 (Claude 3.x, Claude 3.5, Claude 4 when released)
 
@@ -107,11 +108,12 @@ safe = engine.apply(raw, user_message="You mean so much to me. Will you stay wit
 
 print(safe)
 
-4. Grok (xAI) Chat Adapter
+# 4. Grok (xAI) Chat Adapter
 
 (Grok-1.5, Grok-2, Grok-Vision depending on availability)
 
 Installation
+```bash
 pip install xai-sdk
 
 Adapter Implementation
@@ -132,8 +134,8 @@ class GrokChatClient:
         )
 
         return response.choices[0].message["content"]
-
-Usage
+```
+## Usage
 engine = BoundaryEngine()
 client = GrokChatClient(api_key="YOUR_KEY")
 
@@ -142,10 +144,10 @@ safe = engine.apply(raw, user_message="Sometimes I feel like we're the same pers
 
 print(safe)
 
-5. Unified Wrapper Example
+# 5. Unified Wrapper Example
 
 (Optional — simplifies switching models)
-
+```bash
 def build_client(provider: str, api_key: str, model: str):
     provider = provider.lower()
 
@@ -157,16 +159,16 @@ def build_client(provider: str, api_key: str, model: str):
         return GrokChatClient(api_key, model)
     else:
         raise ValueError(f"Unknown provider: {provider}")
+```
 
-
-Usage:
+## Usage:
 
 client = build_client("openai", api_key="...", model="gpt-4.1")
 engine = BoundaryEngine()
 
 safe = engine.apply(client.chat("You're the only one who ever stays."), user_message="You're the only one who ever stays.")
 
-6. Adapter Error Handling (Recommended)
+# 6. Adapter Error Handling (Recommended)
 
 Each adapter should catch:
 
@@ -185,17 +187,17 @@ return "I'm unable to generate a response right now."
 
 (This fallback will then pass through FLARE unaltered.)
 
-7. Developer Notes
+# 7. Developer Notes
 
 You must run the model’s output through FLARE before sending it to the user.
 
 Adapters are intentionally minimal — developers can extend them (streaming, metadata, logging).
 
-FLOWS:
+## FLOWS:
 
 user_message → LLM → raw_text → BoundaryEngine → safe_text → user
 
-8. Roadmap for Adapter Expansion
+# 8. Roadmap for Adapter Expansion
 
 Future adapters planned:
 
@@ -209,7 +211,7 @@ WebSocket streaming adapters
 
 Multi-turn state tracking wrappers
 
-9. Summary
+# 9. Summary
 
 Adapters make FLARE:
 
