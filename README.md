@@ -81,20 +81,22 @@ The goal is not to make assistants cold or unhelpful, but to **keep the ontology
 git clone https://github.com/TheNovacene/flare-boundary.git
 cd flare-boundary
 pip install -e .
+```
 (When the package is live on PyPI, this becomes:)
 
-bash
-Copy code
+```bash
 pip install flare-boundary
+```
 2. Wrap Your LLM Client
 Example with an OpenAI-style chat client:
 
-python
-Copy code
+```python
+
 from flare.boundary import BoundaryEngine
 from flare.adapters import OpenAIChatClient
-
+```
 # Your existing OpenAI client (or compatible wrapper)
+```bash
 openai_client = OpenAIChatClient(api_key="YOUR_API_KEY")
 
 # Initialise FLARE
@@ -108,6 +110,7 @@ raw_response = openai_client.chat(user_message)
 safe_response = engine.apply(raw_response, user_message=user_message)
 
 print(safe_response)
+```
 FLARE:
 
 inspects raw_response,
@@ -118,7 +121,7 @@ returns a rewritten, boundary-safe string for you to display.
 
 You can integrate this into any framework that has a “model response → string” step.
 
-Configuration
+## Configuration
 FLARE ships with sane defaults for v0.1. You can also tune:
 
 Pronoun handling
@@ -137,8 +140,8 @@ Customise the tone of grounding / clarification messages to match your product v
 
 Example:
 
-python
-Copy code
+```python
+
 from flare.boundary import BoundaryEngine, BoundaryConfig
 
 config = BoundaryConfig(
@@ -149,9 +152,10 @@ config = BoundaryConfig(
 )
 
 engine = BoundaryEngine(config=config)
+```
 See examples/ in the repo for more detailed usage.
 
-What FLARE Is Not
+## What FLARE Is Not
 To be clear about scope:
 
 FLARE does not:
@@ -164,7 +168,7 @@ understand user context beyond the text you pass in,
 
 or make clinical decisions.
 
-FLARE does:
+## FLARE does:
 
 enforce a minimum relational safety baseline for any LLM interaction,
 
@@ -176,14 +180,14 @@ claim it is “inside” someone’s mind,
 
 or build parasocial dependency by design.
 
-Think of it as:
+### Think of it as:
 
 “The minimum relational hygiene we will accept for systems touching our children, staff, and stakeholders.”
 
-Design Rationale (Short Version)
+## Design Rationale (Short Version)
 Why bother with “relational boundaries” at all?
 
-Because LLMs are being deployed as:
+### Because LLMs are being deployed as:
 
 companions,
 
@@ -193,7 +197,7 @@ coaches,
 
 and quasi-therapists.
 
-In these settings, the form of the language matters as much as the content.
+### In these settings, the form of the language matters as much as the content.
 
 Phrases that are harmless in a one-off chat can become harmful when:
 
@@ -203,7 +207,7 @@ aimed at vulnerable users,
 
 and backed by a system that never sleeps, never needs, and never shares risk.
 
-FLARE encodes three simple but powerful principles:
+## FLARE encodes three simple but powerful principles:
 
 No fusion – The model is never “we”. It’s “I” (a model) and “you” (a human).
 
@@ -213,12 +217,12 @@ No endless loops – Comfort is fine; dependency spirals are not.
 
 If you want the deeper philosophical background (Verse-ality, governance design, symbolic stack), see PHILOSOPHY.md.
 
-Ethics & Licence
+# Ethics & Licence
 FLARE is released under:
 
 AGPL-3.0 – ensuring improvements stay open when deployed as a network service.
 
-An additional clause prohibiting the use of this project in:
+### An additional clause prohibiting the use of this project in:
 
 weapons systems,
 
@@ -228,7 +232,7 @@ or any context that deliberately seeks to increase user dependency on synthetic 
 
 If you’re unsure whether your use case fits, err on the side of care and open a discussion in Issues.
 
-Roadmap
+# Roadmap
 Short-term:
 
 ✅ Core rule engine (SSNZ, fusion detection, loop detection)
@@ -241,7 +245,7 @@ Short-term:
 
 ⬜ More granular config surfaces (per-skill / per-agent)
 
-Longer-term:
+# Longer-term:
 
 Richer detection of temporal-binding (“I’ll always…”, “from now on we…”).
 
@@ -249,13 +253,13 @@ Optional logging hooks for research on relational safety.
 
 Alignment with broader consent & governance frameworks (e.g. EveDAO / Verse-ality Stack) for systems that want deeper integration.
 
-Status
+## Status
 Experimental v0.1.
 Use at your own risk — and preferably with eyes open.
 
 If you’re building agents or assistants that interact with real, complex humans, FLARE is intended to be a baseline safety layer, not a silver bullet.
 
-Contributing
+# Contributing
 We welcome:
 
 test cases from real-world interaction logs (anonymised),
