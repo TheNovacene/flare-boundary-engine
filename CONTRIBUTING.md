@@ -217,8 +217,8 @@ Tools for building companion bots
 
 FLARE is a safety layer, not a companion layer.
 
-7. Community Engagement
-7.1 Respect
+# 7. Community Engagement
+## 7.1 Respect
 Be kind.
 Boundary safety requires mutual respect and care.
 
