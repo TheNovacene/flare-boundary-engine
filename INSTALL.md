@@ -32,12 +32,12 @@ git clone https://github.com/TheNovacene/flare-boundary.git
 cd flare-boundary
 pip install -e .
 ```
-Option B — Install from PyPI (coming soon)
+### Option B — Install from PyPI (coming soon)
 bash
 ```bash
 pip install flare-boundary
 ```
-3. Install Provider SDK (one or more)
+# 3. Install Provider SDK (one or more)
 OpenAI
 ```bash
 pip install openai
@@ -50,7 +50,7 @@ Grok / xAI
 ```bash
 pip install xai-sdk
 ```
-4. Minimal Example (OpenAI-style)
+# 4. Minimal Example (OpenAI-style)
 Create a file example.py:
 
 python
@@ -75,7 +75,7 @@ Run it:
 ```bash
 python example.py
 ```
-5. Minimal Example (Anthropic)
+# 5. Minimal Example (Anthropic)
 python
 ```bash
 from flare.boundary import BoundaryEngine
@@ -88,7 +88,7 @@ msg = "Sometimes I feel like we're basically the same person."
 raw = client.chat(msg)
 print(engine.apply(raw, user_message=msg))
 ```
-6. Minimal Example (Grok / xAI)
+# 6. Minimal Example (Grok / xAI)
 python
 ```bash
 from flare.boundary import BoundaryEngine
@@ -101,7 +101,7 @@ msg = "Will you stay with me forever?"
 raw = client.chat(msg)
 print(engine.apply(raw, user_message=msg))
 ```
-7. Integration Into Your App
+# 7. Integration Into Your App
 You can wrap any chat workflow:
 
 python
@@ -116,7 +116,7 @@ python
 ```bash
 safe_response = safe_chat(client, engine, "You're the only one I trust.")
 ```
-8. Optional Config
+# 8. Optional Config
 Modify boundary behaviour:
 
 python
@@ -132,14 +132,14 @@ config = BoundaryConfig(
 
 engine = BoundaryEngine(config=config)
 ```
-9. Tests (Recommended)
+# 9. Tests (Recommended)
 To ensure your installation works:
 
 ```bash
 pytest
 ```
 
-10. Troubleshooting
+# 10. Troubleshooting
 Issue: API timeout
 → Check network / API key validity
 
@@ -149,7 +149,7 @@ Issue: Empty model response
 Issue: Rewrite feels abrupt / too strict
 → Try adjusting:
 
-SSNZ strictness
+## SSNZ strictness
 
 identity fusion patterns
 
@@ -158,11 +158,11 @@ loop detection thresholds
 Issue: Adapter not found
 → Ensure you’ve installed the correct provider SDK
 
-11. Uninstall
+# 11. Uninstall
 ```bash
 pip uninstall flare-boundary
 ```
-12. Next Steps
+# 12. Next Steps
 Read README.md for conceptual overview
 
 Review PHILOSOPHY.md, SSNZ.md, IDENTITY_FUSION.md, LOOP_DETECTION.md
@@ -171,7 +171,7 @@ Explore ADAPTERS.md for more integration options
 
 Contribute patterns or adapters via PR
 
-FLARE should feel:
+## FLARE should feel:
 
 simple,
 
