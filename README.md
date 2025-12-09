@@ -277,3 +277,25 @@ FLARE is maintained by The Novacene Ltd with support from collaborators across e
 
 It sits within a broader ecosystem exploring relational intelligence, consent, and governance for human–AI systems.
 If that interests you, start with PHILOSOPHY.md and the Verse-ality / EveDAO references there.
+
+## ✨ Support This Project
+
+FLARE is fully open-source and maintained by The Novacene.  
+If you’d like to support the development of relationally safe AI systems — especially tools that protect young people, vulnerable users, and high-trust environments — you can contribute in two ways:
+
+### **GitHub Sponsors**
+Recurring or one-off contributions directly support ongoing maintenance and development.  
+👉 https://github.com/sponsors/TheNovacene
+
+### **Ko-fi**
+A simple way to make a one-time contribution.  
+👉 https://ko-fi.com/thenovacene
+
+Your support helps us:
+- expand detection patterns for identity fusion and synthetic intimacy  
+- build adapters for additional LLM providers  
+- strengthen test coverage and documentation  
+- keep FLARE fully open, inspectable, and independent  
+
+Thank you for helping establish relational safety as a baseline expectation for modern AI.
+
