@@ -33,7 +33,7 @@ cd flare-boundary
 pip install -e .
 ```
 ### Option B — Install from PyPI (coming soon)
-bash
+
 ```bash
 pip install flare-boundary
 ```
