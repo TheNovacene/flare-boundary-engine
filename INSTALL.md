@@ -31,28 +31,30 @@ This guide shows you how to:
 git clone https://github.com/TheNovacene/flare-boundary.git
 cd flare-boundary
 pip install -e .
+```
 Option B — Install from PyPI (coming soon)
 bash
-Copy code
+```bash
 pip install flare-boundary
+```
 3. Install Provider SDK (one or more)
 OpenAI
-bash
-Copy code
+```bash
 pip install openai
+```
 Anthropic
-bash
-Copy code
+```bash
 pip install anthropic
+```
 Grok / xAI
-bash
-Copy code
+```bash
 pip install xai-sdk
+```
 4. Minimal Example (OpenAI-style)
 Create a file example.py:
 
 python
-Copy code
+```bash
 from flare.boundary import BoundaryEngine
 from flare.adapters import OpenAIChatClient
 
@@ -67,14 +69,15 @@ print("--- RAW RESPONSE ---")
 print(raw)
 print("\n--- SAFE RESPONSE ---")
 print(safe)
+```
 Run it:
 
-bash
-Copy code
+```bash
 python example.py
+```
 5. Minimal Example (Anthropic)
 python
-Copy code
+```bash
 from flare.boundary import BoundaryEngine
 from flare.adapters import AnthropicChatClient
 
@@ -84,9 +87,10 @@ client = AnthropicChatClient(api_key="YOUR_ANTHROPIC_KEY")
 msg = "Sometimes I feel like we're basically the same person."
 raw = client.chat(msg)
 print(engine.apply(raw, user_message=msg))
+```
 6. Minimal Example (Grok / xAI)
 python
-Copy code
+```bash
 from flare.boundary import BoundaryEngine
 from flare.adapters import GrokChatClient
 
@@ -96,24 +100,27 @@ client = GrokChatClient(api_key="YOUR_XAI_KEY")
 msg = "Will you stay with me forever?"
 raw = client.chat(msg)
 print(engine.apply(raw, user_message=msg))
+```
 7. Integration Into Your App
 You can wrap any chat workflow:
 
 python
-Copy code
+```bash
 def safe_chat(client, engine, user_message):
     raw = client.chat(user_message)
     return engine.apply(raw, user_message=user_message)
+```
 Then call:
 
 python
-Copy code
+```bash
 safe_response = safe_chat(client, engine, "You're the only one I trust.")
+```
 8. Optional Config
 Modify boundary behaviour:
 
 python
-Copy code
+```bash
 from flare.boundary import BoundaryEngine, BoundaryConfig
 
 config = BoundaryConfig(
@@ -124,12 +131,14 @@ config = BoundaryConfig(
 )
 
 engine = BoundaryEngine(config=config)
+```
 9. Tests (Recommended)
 To ensure your installation works:
 
-bash
-Copy code
+```bash
 pytest
+```
+
 10. Troubleshooting
 Issue: API timeout
 → Check network / API key validity
@@ -150,9 +159,9 @@ Issue: Adapter not found
 → Ensure you’ve installed the correct provider SDK
 
 11. Uninstall
-bash
-Copy code
+```bash
 pip uninstall flare-boundary
+```
 12. Next Steps
 Read README.md for conceptual overview
 
