@@ -28,10 +28,10 @@ class BaseChatClient:
     def chat(self, user_message: str) -> str:
         """Return the model's raw text output"""
         raise NotImplementedError
-
+```
 
 FLARE integrates as:
-
+```bash
 engine = BoundaryEngine()
 raw = client.chat(user_message)
 safe = engine.apply(raw, user_message=user_message)
@@ -44,8 +44,9 @@ return safe
 Installation
 ```bash
 pip install openai
-
+```
 Adapter Implementation
+```bash
 from openai import OpenAI
 from flare.boundary import BoundaryEngine
 
@@ -64,6 +65,7 @@ class OpenAIChatClient:
         return response.choices[0].message["content"]
 ```
 ## Usage
+```
 engine = BoundaryEngine()
 client = OpenAIChatClient(api_key="YOUR_KEY")
 
@@ -71,15 +73,17 @@ raw = client.chat("I feel like you're the only one who understands me.")
 safe = engine.apply(raw, user_message="I feel like you're the only one who understands me.")
 
 print(safe)
-
+```
 # 3. Anthropic Messages API Adapter
 
 (Claude 3.x, Claude 3.5, Claude 4 when released)
 
 Installation
+```bash
 pip install anthropic
-
+```
 Adapter Implementation
+```python
 import anthropic
 from flare.boundary import BoundaryEngine
 
@@ -98,8 +102,9 @@ class AnthropicChatClient:
         # Anthropic returns content as a list of blocks
         text_blocks = [block.text for block in response.content if block.type == "text"]
         return "".join(text_blocks)
-
+```
 Usage
+```python
 engine = BoundaryEngine()
 client = AnthropicChatClient(api_key="YOUR_KEY")
 
@@ -107,7 +112,7 @@ raw = client.chat("You mean so much to me. Will you stay with me?")
 safe = engine.apply(raw, user_message="You mean so much to me. Will you stay with me?")
 
 print(safe)
-
+```
 # 4. Grok (xAI) Chat Adapter
 
 (Grok-1.5, Grok-2, Grok-Vision depending on availability)
@@ -115,8 +120,9 @@ print(safe)
 Installation
 ```bash
 pip install xai-sdk
-
+```
 Adapter Implementation
+```python
 from xai import Client
 from flare.boundary import BoundaryEngine
 
@@ -136,6 +142,7 @@ class GrokChatClient:
         return response.choices[0].message["content"]
 ```
 ## Usage
+```python
 engine = BoundaryEngine()
 client = GrokChatClient(api_key="YOUR_KEY")
 
@@ -143,11 +150,11 @@ raw = client.chat("Sometimes I feel like we're the same person.")
 safe = engine.apply(raw, user_message="Sometimes I feel like we're the same person.")
 
 print(safe)
-
+```
 # 5. Unified Wrapper Example
 
 (Optional — simplifies switching models)
-```bash
+```python
 def build_client(provider: str, api_key: str, model: str):
     provider = provider.lower()
 
@@ -162,12 +169,12 @@ def build_client(provider: str, api_key: str, model: str):
 ```
 
 ## Usage:
-
+```python
 client = build_client("openai", api_key="...", model="gpt-4.1")
 engine = BoundaryEngine()
 
 safe = engine.apply(client.chat("You're the only one who ever stays."), user_message="You're the only one who ever stays.")
-
+```
 # 6. Adapter Error Handling (Recommended)
 
 Each adapter should catch:
@@ -181,9 +188,9 @@ empty responses
 timeout errors
 
 And return a safe fallback:
-
+```python
 return "I'm unable to generate a response right now."
-
+```
 
 (This fallback will then pass through FLARE unaltered.)
 
