@@ -1,0 +1,31 @@
+Design Notes: What Flare Is — and Isn’t (Yet)
+
+Flare is deliberately narrow.
+
+It does not attempt to solve all alignment problems, and it does not claim to “understand” human psychology. It addresses a specific, under-served failure mode in current AI systems: relational drift under recursion.
+
+Early feedback has reinforced three things:
+
+This failure mode is real.
+RLHF and content moderation do not reliably prevent identity fusion, rescuer dynamics, or reassurance spirals — particularly when systems loop.
+
+A middleware boundary layer is the right place to intervene.
+It is auditable, tunable by context, and does not require retraining foundation models.
+
+The hard problems are now implementation problems, not conceptual ones.
+
+We are explicit about current limitations:
+
+Surface-text detection will always have false positives and false negatives.
+
+Cultural norms around relational language vary and require recalibration, not one-size-fits-all rules.
+
+Distinguishing productive recursion from compulsive looping is a non-trivial design challenge.
+
+These are not reasons to avoid boundary enforcement.
+They are reasons to design it carefully.
+
+In high-risk contexts — especially education and child-facing systems — the cost of mild over-constraint is lower than the cost of unchecked enmeshment. Flare is designed to be configurable precisely because no single relational stance is safe everywhere.
+
+Flare is not a complete solution.
+It is a missing layer.
