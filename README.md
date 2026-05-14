@@ -218,17 +218,24 @@ No endless loops – Comfort is fine; dependency spirals are not.
 If you want the deeper philosophical background (Verse-ality, governance design, symbolic stack), see PHILOSOPHY.md.
 
 # Ethics & Licence
-FLARE is released under:
 
-AGPL-3.0 – ensuring improvements stay open when deployed as a network service.
+FLARE uses a dual-licence model:
 
-### An additional clause prohibiting the use of this project in:
+- **Code** is licensed under [AGPL-3.0-only](./LICENSE), ensuring improvements stay open when deployed as a network service.
+- **Content** (documentation, prose, threat-model notes, philosophy material) is licensed under [CC BY-NC-SA 4.0](./LICENSE-CONTENT).
+- **Commercial licence** for closed-source deployment without AGPL copyleft obligations: see [COMMERCIAL-LICENCE.md](./COMMERCIAL-LICENCE.md) or contact legal@thenovacene.com.
 
-weapons systems,
+### Additional ethical clause
 
-dark-pattern engagement optimisation,
+FLARE — whether used under the open-source or commercial licence — must not be deployed in:
 
-or any context that deliberately seeks to increase user dependency on synthetic agents.
+- weapons systems,
+- dark-pattern engagement optimisation,
+- or any context that deliberately seeks to increase user dependency on synthetic agents.
+
+The COMMERCIAL-LICENCE.md formalises this as binding restrictions on surveillance, coercive monitoring, extractive profiling, and use of outputs/telemetry for model training or third-party enrichment.
+
+"Verse-ality" is a protected mark of The Novacene Ltd (UK00004381891, applied for 1 May 2026).
 
 If you’re unsure whether your use case fits, err on the side of care and open a discussion in Issues.
 

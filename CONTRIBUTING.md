@@ -123,6 +123,16 @@ Not allowed:
 - data processing frameworks,  
 - async frameworks (unless adapters require optional support).
 
+### **3.4 Licensing of Contributions**
+
+FLARE uses a dual-licence model (AGPL-3.0-only for code; CC BY-NC-SA 4.0 for content; commercial licence available from The Novacene Ltd).
+
+- All new code files must include the header `# SPDX-License-Identifier: AGPL-3.0-only`.
+- In your PR, paste the contributor sign-off line:
+  `I have read and agree to assign my contribution to The Novacene Ltd under the project's open-source (AGPL-3.0-only) and commercial licences.`
+
+Without this sign-off, contributions cannot be relicensed commercially.
+
 ---
 
 # 4. Rules for Adding or Modifying Detection Patterns
