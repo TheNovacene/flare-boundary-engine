@@ -10,3 +10,6 @@ __pycache__/
 # Mac cruft
 .DS_Store
 
+
+# Evidence stream (audit files are not committed)
+evidence/

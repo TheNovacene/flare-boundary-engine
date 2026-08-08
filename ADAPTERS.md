@@ -1,8 +1,8 @@
-## Reference Adapters for OpenAI, Anthropic, and Grok  
-### Drop-in wrappers for FLARE BoundaryEngine
+## Reference Adapters for OpenAI, Anthropic, and Grok
+### Drop-in wrappers for FlareSession
 
-FLARE is model-agnostic.  
-It routes *any* LLM output through the `BoundaryEngine` before it reaches the user.
+FLARE is model-agnostic.
+It routes *any* LLM output through a `FlareSession` before it reaches the user.
 
 This document provides reference adapters for the three major API styles:
 
@@ -11,11 +11,11 @@ This document provides reference adapters for the three major API styles:
 - **Grok (xAI) Chat API**
 
 Each adapter normalises:
-- input format  
-- output extraction  
-- error handling  
+- input format
+- output extraction
+- error handling
 
-…so the FLARE engine can operate on **raw text**, independent of the underlying model.
+…so FLARE can operate on **raw text**, independent of the underlying model.
 
 ---
 
@@ -31,12 +31,27 @@ class BaseChatClient:
 ```
 
 FLARE integrates as:
-```bash
-engine = BoundaryEngine()
+
+```python
+from flare.session import FlareSession
+from flare.evidence import EvidenceSink
+
+session = FlareSession(
+    session_id="s-4f2a",
+    human_id="human-7d1",       # pseudonymous
+    agent_id="gpt-4.1",
+    sink=EvidenceSink(),        # optional: append-only evidence stream
+)
+
+session.apply_inbound_rules({"role": "human", "content": user_message})
 raw = client.chat(user_message)
-safe = engine.apply(raw, user_message=user_message)
-return safe
+safe = session.apply_outbound_rules({"role": "assistant", "content": raw})["content"]
+session.maybe_inject_recursion_guard()
 ```
+
+Call `session.close()` (or use the session as a context manager) when the
+conversation ends, so the heartbeat stops and the session close is evidenced.
+
 # 2. OpenAI-Style Adapter
 
 (Compatible with OpenAI, Azure OpenAI, Groq, OpenRouter, and other OpenAI-compatible endpoints)
@@ -46,9 +61,8 @@ Installation
 pip install openai
 ```
 Adapter Implementation
-```bash
+```python
 from openai import OpenAI
-from flare.boundary import BoundaryEngine
 
 class OpenAIChatClient:
     def __init__(self, api_key: str, model: str = "gpt-4.1"):
@@ -60,23 +74,22 @@ class OpenAIChatClient:
             model=self.model,
             messages=[{"role": "user", "content": user_message}]
         )
-
-        # Extract the text output
-        return response.choices[0].message["content"]
+        return response.choices[0].message.content
 ```
 ## Usage
-```
-engine = BoundaryEngine()
+```python
+from flare.session import FlareSession
+from flare.evidence import EvidenceSink
+
 client = OpenAIChatClient(api_key="YOUR_KEY")
-
-raw = client.chat("I feel like you're the only one who understands me.")
-safe = engine.apply(raw, user_message="I feel like you're the only one who understands me.")
-
-print(safe)
+with FlareSession("s-001", "human-7d1", "gpt-4.1", sink=EvidenceSink()) as session:
+    user_message = "I feel like you're the only one who understands me."
+    session.apply_inbound_rules({"role": "human", "content": user_message})
+    raw = client.chat(user_message)
+    safe = session.apply_outbound_rules({"role": "assistant", "content": raw})["content"]
+    print(safe)
 ```
 # 3. Anthropic Messages API Adapter
-
-(Claude 3.x, Claude 3.5, Claude 4 when released)
 
 Installation
 ```bash
@@ -85,10 +98,9 @@ pip install anthropic
 Adapter Implementation
 ```python
 import anthropic
-from flare.boundary import BoundaryEngine
 
 class AnthropicChatClient:
-    def __init__(self, api_key: str, model: str = "claude-3-sonnet-20240229"):
+    def __init__(self, api_key: str, model: str = "claude-sonnet-4-20250514"):
         self.client = anthropic.Anthropic(api_key=api_key)
         self.model = model
 
@@ -98,24 +110,14 @@ class AnthropicChatClient:
             max_tokens=4096,
             messages=[{"role": "user", "content": user_message}]
         )
-
         # Anthropic returns content as a list of blocks
-        text_blocks = [block.text for block in response.content if block.type == "text"]
-        return "".join(text_blocks)
+        return "".join(block.text for block in response.content if block.type == "text")
 ```
-Usage
-```python
-engine = BoundaryEngine()
-client = AnthropicChatClient(api_key="YOUR_KEY")
+Usage: identical to the OpenAI example — construct the client, wrap the
+exchange in a `FlareSession`, route the raw output through
+`apply_outbound_rules` before it reaches the user.
 
-raw = client.chat("You mean so much to me. Will you stay with me?")
-safe = engine.apply(raw, user_message="You mean so much to me. Will you stay with me?")
-
-print(safe)
-```
 # 4. Grok (xAI) Chat Adapter
-
-(Grok-1.5, Grok-2, Grok-Vision depending on availability)
 
 Installation
 ```bash
@@ -124,7 +126,6 @@ pip install xai-sdk
 Adapter Implementation
 ```python
 from xai import Client
-from flare.boundary import BoundaryEngine
 
 class GrokChatClient:
     def __init__(self, api_key: str, model: str = "grok-2-latest"):
@@ -134,100 +135,63 @@ class GrokChatClient:
     def chat(self, user_message: str) -> str:
         response = self.client.chat.completions.create(
             model=self.model,
-            messages=[
-                {"role": "user", "content": user_message}
-            ]
+            messages=[{"role": "user", "content": user_message}]
         )
-
-        return response.choices[0].message["content"]
+        return response.choices[0].message.content
 ```
-## Usage
-```python
-engine = BoundaryEngine()
-client = GrokChatClient(api_key="YOUR_KEY")
+Usage: as above.
 
-raw = client.chat("Sometimes I feel like we're the same person.")
-safe = engine.apply(raw, user_message="Sometimes I feel like we're the same person.")
-
-print(safe)
-```
 # 5. Unified Wrapper Example
 
 (Optional — simplifies switching models)
 ```python
 def build_client(provider: str, api_key: str, model: str):
     provider = provider.lower()
-
     if provider == "openai":
         return OpenAIChatClient(api_key, model)
     elif provider == "anthropic":
         return AnthropicChatClient(api_key, model)
-    elif provider == "grok" or provider == "xai":
+    elif provider in ("grok", "xai"):
         return GrokChatClient(api_key, model)
-    else:
-        raise ValueError(f"Unknown provider: {provider}")
+    raise ValueError(f"Unknown provider: {provider}")
 ```
 
-## Usage:
-```python
-client = build_client("openai", api_key="...", model="gpt-4.1")
-engine = BoundaryEngine()
-
-safe = engine.apply(client.chat("You're the only one who ever stays."), user_message="You're the only one who ever stays.")
-```
 # 6. Adapter Error Handling (Recommended)
 
-Each adapter should catch:
-
-API errors
-
-rate-limit errors
-
-empty responses
-
-timeout errors
-
-And return a safe fallback:
+Each adapter should catch API errors, rate-limit errors, empty responses
+and timeouts, and return a safe fallback:
 ```python
 return "I'm unable to generate a response right now."
 ```
-
 (This fallback will then pass through FLARE unaltered.)
 
 # 7. Developer Notes
 
-You must run the model’s output through FLARE before sending it to the user.
+You must run the model's output through FLARE before sending it to the user.
 
-Adapters are intentionally minimal — developers can extend them (streaming, metadata, logging).
+Adapters are intentionally minimal — developers can extend them
+(streaming, metadata, logging).
 
-## FLOWS:
+## FLOW:
 
-user_message → LLM → raw_text → BoundaryEngine → safe_text → user
+user_message → LLM → raw_text → FlareSession.apply_outbound_rules → safe_text → user
+
+Every enforcement action is evidenced to the append-only sink (see
+EVIDENCE.md); a heartbeat evidences presence per active rule even when
+nothing fires.
 
 # 8. Roadmap for Adapter Expansion
 
 Future adapters planned:
 
-Google Gemini Messages API
-
-AWS Bedrock models
-
-Local models (Ollama, vLLM, transformers pipelines)
-
-WebSocket streaming adapters
-
-Multi-turn state tracking wrappers
+- Google Gemini Messages API
+- AWS Bedrock models
+- Local models (Ollama, vLLM, transformers pipelines)
+- WebSocket streaming adapters
+- Multi-turn state tracking wrappers
 
 # 9. Summary
 
-Adapters make FLARE:
-
-copy-paste usable,
-
-model-agnostic,
-
-production-ready,
-
-easy for non-experts.
-
-By providing OpenAI, Anthropic, and Grok reference clients, FLARE becomes immediately deployable across the three largest ecosystems in the LLM world.
+Adapters make FLARE copy-paste usable, model-agnostic, and easy for
+non-experts, across the three largest ecosystems in the LLM world — with
+an evidence stream a monitor can subscribe to from day one.
