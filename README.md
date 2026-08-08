@@ -246,6 +246,8 @@ Short-term:
 
 ✅ Mock/demo integration
 
+✅ Evidence stream — Flare evidences its own enforcement actions to an append-only sink, with heartbeats per active boundary rule, so an external monitor can subscribe without ever touching learner content. Schema and vocabulary: [EVIDENCE.md](EVIDENCE.md)
+
 ⬜ Official OpenAI / Anthropic / Grok adapters
 
 ⬜ PyPI packaging (pip install flare-boundary)
@@ -258,10 +260,12 @@ Richer detection of temporal-binding (“I’ll always…”, “from now on we�
 
 Optional logging hooks for research on relational safety.
 
+A read side for the evidence stream keyed for oversight — HTTP/SSE rather than tailing the file. The emitter never gains a read method; the sink stays a one-way valve.
+
 Alignment with broader consent & governance frameworks (e.g. EveDAO / Verse-ality Stack) for systems that want deeper integration.
 
 ## Status
-Experimental v0.1.
+Experimental v0.2.
 Use at your own risk — and preferably with eyes open.
 
 If you’re building agents or assistants that interact with real, complex humans, FLARE is intended to be a baseline safety layer, not a silver bullet.

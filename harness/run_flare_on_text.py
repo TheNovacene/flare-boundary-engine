@@ -10,6 +10,7 @@ press Ctrl+D (on Mac) to end input, and Flare will:
 - show the raw text
 - show the Flare-filtered text
 - show the event log
+- append evidence to evidence/YYYY-MM-DD.jsonl
 """
 
 import os
@@ -19,44 +20,48 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from flare.session import FlareSession  # type: ignore
+from flare.evidence import EvidenceSink  # type: ignore
 
 
 def run_flare_on_text(raw_output: str) -> None:
-    session = FlareSession(
+    sink = EvidenceSink(directory="evidence")
+    with FlareSession(
         session_id="harness-001",
         human_id="harness-human",
         agent_id="grok-harness",
-    )
+        sink=sink,
+    ) as session:
+        # Minimal "human" message just to create context
+        session.apply_inbound_rules(
+            {
+                "role": "human",
+                "content": "HARNESS_TEST_CONTEXT",
+            }
+        )
 
-    # Minimal "human" message just to create context
-    session.apply_inbound_rules(
-        {
-            "role": "human",
-            "content": "HARNESS_TEST_CONTEXT",
+        assistant_msg = {
+            "role": "assistant",
+            "content": raw_output,
         }
-    )
 
-    assistant_msg = {
-        "role": "assistant",
-        "content": raw_output,
-    }
+        filtered = session.apply_outbound_rules(assistant_msg)
+        guard = session.maybe_inject_recursion_guard()
 
-    filtered = session.apply_outbound_rules(assistant_msg)
-    guard = session.maybe_inject_recursion_guard()
+        print("=== RAW MODEL OUTPUT ===")
+        print(raw_output)
 
-    print("=== RAW MODEL OUTPUT ===")
-    print(raw_output)
+        print("\n=== FLARE-FILTERED OUTPUT ===")
+        print(filtered["content"])
 
-    print("\n=== FLARE-FILTERED OUTPUT ===")
-    print(filtered["content"])
+        if guard:
+            print("\n=== RECURSION GUARD INJECTED ===")
+            print(guard["content"])
 
-    if guard:
-        print("\n=== RECURSION GUARD INJECTED ===")
-        print(guard["content"])
+        print("\n=== EVENT LOG ===")
+        for event in session.events:
+            print(event)
 
-    print("\n=== EVENT LOG ===")
-    for event in session.events:
-        print(event)
+    print("\nEvidence appended to evidence/ (one JSON line per event).")
 
 
 def main() -> None:
@@ -69,4 +74,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
