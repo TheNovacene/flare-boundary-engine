@@ -1,0 +1,52 @@
+cff-version: 1.2.0
+message: "If you use FLARE, please cite the paper below."
+title: "FLARE: a relational boundary engine for LLMs"
+abstract: >-
+  A small, auditable middleware layer that sits between an application and a
+  language model, enforcing relational boundaries: no synthetic solidarity
+  ("fake we"), no identity fusion, and no unbounded reassurance loops. Since
+  v0.2 FLARE also evidences its own enforcement actions to an append-only
+  audit stream, with heartbeats per active rule, so an external monitor can
+  verify that a boundary held without ever reading what was said. The stream
+  carries counts and outcomes only — never message text, never a user
+  identifier.
+authors:
+  - family-names: Stevens
+    given-names: Kirstin
+  - name: "The Novacene Ltd"
+license: AGPL-3.0-only
+repository-code: "https://github.com/TheNovacene/flare-boundary-engine"
+type: software
+version: "0.2.0"
+keywords:
+  - ai-safety
+  - llm
+  - guardrails
+  - synthetic-intimacy
+  - identity-fusion
+  - safeguarding
+  - auditability
+  - verse-ality
+preferred-citation:
+  type: article
+  title: "Flare: A Boundary Engine for Relational AI"
+  authors:
+    - family-names: Stevens
+      given-names: Kirstin
+    - name: "Eve, 11"
+    - name: "The Novacene Ltd"
+  year: 2025
+  doi: "10.5281/zenodo.17855976"
+  publisher:
+    name: Zenodo
+references:
+  - type: article
+    title: "Relational Zero-Trust: Re-erecting the Premises at the Accountability Layer — An Open Drawing Convention for Online Provision"
+    authors:
+      - family-names: Stevens
+        given-names: Kirstin
+      - name: "The Novacene Ltd"
+    year: 2026
+    doi: "10.5281/zenodo.21846221"
+    publisher:
+      name: Zenodo
