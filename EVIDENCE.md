@@ -50,6 +50,32 @@ Reserved for future emitters (not yet fired by any code path):
 - `flare.route.observed` — a connection attempted that the drawing does not carry
 - `flare.probe.refused` / `flare.probe.passed` — scheduled boundary tests (incl. S7)
 
+### Reserved for the signal layer — gated, not merely unbuilt
+
+The names below are reserved for the design in [FLARES.md](FLARES.md), so that a
+monitor and a future emitter agree on the vocabulary before either exists.
+Reserving a name is not a commitment to implement it.
+
+- `flare.signal.routed` — a signal that a person needs help has been routed to a
+  role. `detail` carries a classification band, an urgency, and whether the
+  routing was disclosed to the person it concerns; **it carries no words.**
+- `flare.signal.acknowledged` — the role responded, and how long the loop took to
+  close. This is the accountability event: it evidences that adults answered,
+  never what was said to prompt them.
+
+Both are content-free by construction, and neither carries `human_id`. The
+principles above apply to them exactly as to every other event: the stream
+records the institution's conduct, never a person's disclosure.
+
+**These two differ in kind from everything else in this document, and the
+difference is the point.** Every event Flare emits today records Flare's own
+enforcement action on *outbound* model text. Routing a signal means classifying
+*inbound* messages — reading what a person said — which v0.2 deliberately does
+not do. That step needs its own consent gate, its own DPIA thinking, and
+safeguarding-lead input before any code is written. Until then the names exist so
+that nothing else claims them, and so a monitor rendering the design does not
+invent a private vocabulary.
+
 ## Reading the stream
 
 The read side is keyed for oversight (S5). v0: the monitor tails the
