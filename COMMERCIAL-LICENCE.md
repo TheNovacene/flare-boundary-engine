@@ -20,7 +20,7 @@ This commercial licence permits closed-source deployment of **Flare Boundary Eng
 ## Attribution & Marks
 - Retain copyright notices.
 - Do not remove glyph watermarks or signatures where they appear.
-- "**Verse-ality®**" is a registered trade mark of The Novacene Ltd in the United Kingdom (UK00004381891, classes 9, 41 and 42, registered 31 July 2026). "**Eve¹¹**" and "**Verse-ality Certified**" are unregistered marks of The Novacene Ltd. You may fork/modify code where permitted by licence, but you must not present derivatives as official or endorsed without written permission. This licence covers copyright only and grants no trade mark rights.
+- "**Verse-ality®**" is a registered trade mark of The Novacene Ltd in the United Kingdom (UK00004381891, classes 9, 41 and 42, registered 31 July 2026). "**Eve¹¹™**" and "**Verse-ality Certified™**" are further marks of The Novacene Ltd. You may fork/modify code where permitted by licence, but you must not present derivatives as official or endorsed without written permission. This licence covers copyright only and grants no trade mark rights.
 
 ## Support
 Optional support and SLAs are available under a separate agreement.
