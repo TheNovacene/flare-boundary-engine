@@ -235,7 +235,7 @@ FLARE — whether used under the open-source or commercial licence — must not 
 
 The COMMERCIAL-LICENCE.md formalises this as binding restrictions on surveillance, coercive monitoring, extractive profiling, and use of outputs/telemetry for model training or third-party enrichment.
 
-"Verse-ality" is a protected mark of The Novacene Ltd (UK00004381891, applied for 1 May 2026).
+"Verse-ality®" is a registered trade mark of The Novacene Ltd (UK00004381891, classes 9, 41 and 42, registered 31 July 2026).
 
 If you’re unsure whether your use case fits, err on the side of care and open a discussion in Issues.
 
